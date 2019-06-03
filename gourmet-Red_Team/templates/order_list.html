@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% if order_list %}
+    <form method="POST">
+        <table>
+            {% for order in order_list %}
+                <tr>
+                    <td>
+                        {{display(order)}}
+                    </td>
+                    {% if order.status == "being prepared" %}
+                        <td>
+                            <button name='bt'value="{{order.id}}">Complete this order</button>
+                        </td>
+                    {% endif %}
+                </tr>
+
+            {% endfor %}
+        </table>
+    </form>
+{% else %}
+    There are no orders in the system.
+{% endif %}
+
+
+{% endblock %}

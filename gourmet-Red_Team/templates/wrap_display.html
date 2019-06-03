@@ -1,0 +1,6 @@
+<b>Wrap</b><br>
+Fillings:
+{% for ingredient in wrap.ingredients %}
+    <li>{{ingredient.name}}</li>
+{% endfor %}
+Price: ${{"{:.2f}".format(wrap.price)}}

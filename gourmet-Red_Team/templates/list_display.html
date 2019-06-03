@@ -1,0 +1,23 @@
+<table>
+    {% for object in list %}
+        <tr>
+            <td>
+                {{object.name}}
+            </td>
+            <td>
+                ${{"{:.2f}".format(object.price)}}
+            </td>
+            <td>
+                {% if current_order %}
+                    <input name="{{object.name}}" value={{current_order[object.name]}}>
+                {% else %}
+                    <input name="{{object.name}}" value="">
+                {% endif %}
+                {% if errors %}
+                    <span style="color: red">{{errors.get(object.name,'')}}</span>
+                {% endif %}
+                <br>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

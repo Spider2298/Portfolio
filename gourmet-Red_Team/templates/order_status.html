@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block body %}
+{% if get_number %}
+    <form method = "POST">
+        <input name="id" placeholder="Order Number...">
+        <input class="btn btn-primary" type="submit" name = "submit" value="Check My Order"> 
+    </form>
+{% else %}
+    {% if order %}
+        <form method="POST">
+            <table>
+                <tr>   
+                    <td>
+                        {{display(order)}}
+                    </td>
+                    {% if order.status == "ready" %}
+                        <td>
+                            <button name='bt'value="{{order.id}}">Collect this order</button>
+                        </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </form>
+    {% else %}
+        <p>This order does not exist</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

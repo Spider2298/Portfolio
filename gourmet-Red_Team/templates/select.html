@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block body %}
+    <script>
+
+        var hide = function (elem) {
+            elem.style.display = 'none';
+        };
+        
+        var show_all = function () {
+            document.getElementById('1').style.display = 'block';
+            document.getElementById('2').style.display = 'block';
+            hide(document.getElementById('3'));
+            hide(document.getElementById('4'));
+        };
+
+        var show_fillings = function () {
+            hide(document.getElementById('1'));
+            document.getElementById('2').style.display = 'block';
+            hide(document.getElementById('3'));
+            hide(document.getElementById('4'));
+        };
+
+        var show_std_burger = function () {
+            hide(document.getElementById('1'));
+            hide(document.getElementById('2'));
+            document.getElementById('3').style.display = 'block';
+            hide(document.getElementById('4'));
+        };
+
+        var show_std_wrap = function () {
+            hide(document.getElementById('1'));
+            hide(document.getElementById('2'));
+            hide(document.getElementById('3'));
+            document.getElementById('4').style.display = 'block';
+        };
+    
+    
+    </script>
+    <form method="POST">
+        <table>
+            <tr>
+                <td>
+                    {% if errors %} 
+                        <h3><p style="color:red"> Oops! There was a problem with your order!</p></h3>
+                        <p style="color:red">{{ errors.get('head','') }}</p>
+                    {% endif %}
+                    {% if price %}
+                        <p>Price: ${{"{:.2f}".format(price)}} </p>
+                        <input class="btn btn-success" type="submit" name = "action" value="Confirm Order"/>
+                        <input class="btn btn-danger" type="submit" name = "cancel" value="Cancel"/><br>
+                    {% else %}
+                        <input class="btn btn-primary" type="submit" name = "action" value="Check Order"><br>    
+                    {% endif %}
+                    
+                    <input type="radio" name="main" value="custom_burger" id="custom_burger" onclick="show_all()" checked> Custom Burger<br>
+                    <input type="radio" name="main" value="custom_wrap" id="custom_wrap" onclick="show_fillings()"> Custom Wrap<br>
+                    <input type="radio" name="main" value="standard_burger" id="standard_burger" onclick="show_std_burger()"> Standard Burger<br>
+                    <input type="radio" name="main" value="standard_wrap" id="standard_wrap" onclick="show_std_wrap()"> Standard Wrap<br>
+                    
+                    <div id='1'>
+                        <h5>Bun Selection</h5>
+                        {{display(system.buns, current_order=current_order, errors = errors)}}
+                    </div>
+                    <div id='2'>
+                        <h5>Fillings Selection</h5>
+                        {{display(system.ingredients, current_order=current_order, errors = errors)}}
+                    </div>
+                    <div id='3' style='display: none'>
+                        {{display(system.standard_burger)}}
+                    </div>
+                    <div id='4' style='display: none'>
+                        {{display(system.standard_wrap)}}
+                    </div>
+                    
+                    <script>
+                        document.getElementById("{{selection}}").click()
+                    </script>
+
+                    <input class="btn btn-success" type="submit" name = "action" value="Add Main"/>
+                </td>
+                <td>
+                    Mains Present <br>
+                    --------------->
+                </td>
+                <td>
+                    {% for (index, main) in mains %}
+                        <button type="submit" name='action'value="remove{{index}}">Remove this main</button><br>
+                        {{display(main)}}<br><br>
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
+        <h2>Sides</h2>
+        {{display(system.sides, current_order=current_order, errors = errors)}}
+        <h2>Drinks</h2>
+        {{display(system.drinks, current_order=current_order, errors = errors)}}
+        {% if price %}
+            <p>Price: ${{"{:.2f}".format(price)}} </p>
+            <input class="btn btn-success" type="submit" name = "action" value="Confirm Order"/>
+            <input class="btn btn-danger" type="submit" name = "cancel" value="Cancel"/><br>
+        {% else %}
+            <input class="btn btn-primary" type="submit" name = "action" value="Check Order">    
+        {% endif %}
+    </form>
+
+{% endblock %}
+
+

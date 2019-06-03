@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block body %}
+<div>
+    <h3>Inventory Management</h3>
+    <form method = "POST">
+        <table>
+            {% for (key, (value, units)) in stock_key_value_pairs %}
+                <tr>
+                    <td>
+                        {{ key }}
+                    </td>
+                    <td>
+                        <input name = '{{ key }}'' value = '{{ value }}'/>
+                    </td>
+                    <td>
+                        {{ units }}     
+                    </td>
+                    <td>
+                    {% if errors %}
+                        <font size="3" color="red">{{errors[key] if key in errors else ''}}</font>
+                    {% endif %}
+                    {% if messages%}
+                        <font size="3" color="green">{{messages[key] if key in messages else ''}}</font>
+                    {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input class="btn btn-primary" type="submit" value="Update Inventory"><br>
+    </form>
+</div>
+{% endblock %}

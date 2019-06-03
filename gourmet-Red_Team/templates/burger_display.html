@@ -1,0 +1,7 @@
+<b>Burger</b><br>
+{{burger.number_of_buns}} {{burger.bun.name}}s<br>
+Fillings:
+{% for ingredient in burger.ingredients %}
+    <li>{{ingredient.name}}</li>
+{% endfor %}
+Price: ${{"{:.2f}".format(burger.price)}}
